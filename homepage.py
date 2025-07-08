@@ -84,7 +84,7 @@ if st.button("➕ Add to Portfolio"):
 # Portfolio View
 if st.session_state.portfolio:
     st.markdown("---")
-    st.subheader("📦 Portfolio Overview")
+    st.subheader(" Portfolio Overview")
 
     portfolio_df = pd.DataFrame(list(st.session_state.portfolio.values()))
     total_investment = portfolio_df["Investment"].sum()
@@ -113,7 +113,7 @@ if st.session_state.portfolio:
     portfolio_df = pd.DataFrame(list(st.session_state.portfolio.values()))
     total_investment = portfolio_df["Investment"].sum()
 
-    if st.button("📈 Generate Portfolio Score & Visuals"):
+    if st.button(" Generate Portfolio Score & Visuals"):
         weights = portfolio_df["Investment"] / total_investment
         score = sum(weights * portfolio_df["Composite Score"])
 
@@ -128,7 +128,7 @@ if st.session_state.portfolio:
             x="Name",
             y="Composite Score",
             color="Composite Score",
-            title="📊 Score Breakdown by Stock",
+            title=" Score Breakdown by Stock",
             color_continuous_scale="Greens"
         )
         st.plotly_chart(fig, use_container_width=True)
@@ -137,12 +137,12 @@ if st.session_state.portfolio:
             portfolio_df,
             names="Sector",
             values="Investment",
-            title="💼 Sector Allocation"
+            title=" Sector Allocation"
         )
         st.plotly_chart(fig2, use_container_width=True)
 
         avg_pe = (portfolio_df["PE Ratio"] * weights).sum()
-        st.markdown(f"### 🧠 Portfolio Average PE Ratio: `{avg_pe:.2f}`")
+        st.markdown(f"###  Portfolio Average PE Ratio: `{avg_pe:.2f}`")
 
     if st.button("🗑️ Clear Portfolio"):
         st.session_state.portfolio = {}
