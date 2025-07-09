@@ -58,10 +58,10 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# ➕ Add to Portfolio Button (centered with top margin)
-st.markdown("<div style='display:flex;justify-content:center;margin-top:20px;'>", unsafe_allow_html=True)
-add_clicked = st.button("➕ Add to Portfolio")
-st.markdown("</div>", unsafe_allow_html=True)
+# ➕ Add to Portfolio Button (centered with better approach)
+col1, col2, col3 = st.columns([1, 1, 1])
+with col2:
+    add_clicked = st.button("➕ Add to Portfolio", key="add_btn")
 
 if add_clicked:
     investment_value = quantity * market_price
@@ -117,14 +117,13 @@ if st.session_state.portfolio:
     portfolio_df = pd.DataFrame(list(st.session_state.portfolio.values()))
     total_investment = portfolio_df["Investment"].sum()
 
-    # 🚀 Generate + 🗑️ Clear Buttons (side-by-side, centered)
-    st.markdown("<div style='display:flex;justify-content:center;gap:1rem;margin-top:2rem;'>", unsafe_allow_html=True)
-    generate_col, clear_col = st.columns([1, 1])
-    with generate_col:
-        generate_clicked = st.button("🚀 Generate Portfolio Score & Visuals")
-    with clear_col:
-        clear_clicked = st.button("🗑️ Clear Portfolio")
-    st.markdown("</div>", unsafe_allow_html=True)
+    # 🚀 Generate + 🗑️ Clear Buttons (centered with better approach)
+    st.markdown("<div style='margin-top:2rem;'></div>", unsafe_allow_html=True)
+    col1, col2, col3, col4, col5 = st.columns([1, 1, 1, 1, 1])
+    with col2:
+        generate_clicked = st.button("🚀 Generate Portfolio Score & Visuals", key="generate_btn")
+    with col4:
+        clear_clicked = st.button("🗑️ Clear Portfolio", key="clear_btn")
 
     if generate_clicked:
         weights = portfolio_df["Investment"] / total_investment
@@ -167,4 +166,4 @@ st.markdown("""
     <p style='text-align:center;font-size:0.9rem;color:#94a3b8'>
         ⚠️ Simulated Prices | Educational Use Only | © StockGennie Pro 2024
     </p>
-""", unsafe_allow_html=True)
+""", unsafe_allow_html=True)</content>
