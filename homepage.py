@@ -1,4 +1,4 @@
-yeah give me top to bottom with data loaded pls
+
 
 import streamlit as st
 import pandas as pd
