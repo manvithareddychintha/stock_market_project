@@ -1,3 +1,4 @@
+this is the code
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -323,32 +324,11 @@ if st.session_state.portfolio:
     total_investment = portfolio_df["Investment"].sum()
 
     # Premium Metrics
-    st.markdown(f"""
-<div style='display: flex; justify-content: space-between; margin: 2rem 0; gap: 2rem;'>
-    <div style='flex:1; background: {theme["card_bg"]}; border: 1px solid {theme["card_border"]}; 
-                padding: 1.5rem; border-radius: 16px; text-align: center; box-shadow: {theme["shadow"]};'>
-        <div style='font-size:1rem; color:{theme["text_secondary"]};'>Total Investment</div>
-        <div style='font-size:2rem; font-weight:700; color:{theme["text_primary"]};'>
-            ${total_investment:,.2f}
-        </div>
-    </div>
-    <div style='flex:1; background: {theme["card_bg"]}; border: 1px solid {theme["card_border"]}; 
-                padding: 1.5rem; border-radius: 16px; text-align: center; box-shadow: {theme["shadow"]};'>
-        <div style='font-size:1rem; color:{theme["text_secondary"]};'>Stocks Held</div>
-        <div style='font-size:2rem; font-weight:700; color:{theme["text_primary"]};'>
-            {len(portfolio_df)}
-        </div>
-    </div>
-    <div style='flex:1; background: {theme["card_bg"]}; border: 1px solid {theme["card_border"]}; 
-                padding: 1.5rem; border-radius: 16px; text-align: center; box-shadow: {theme["shadow"]};'>
-        <div style='font-size:1rem; color:{theme["text_secondary"]};'>Weighted Score</div>
-        <div style='font-size:2rem; font-weight:700; color:{theme["accent"]};'>
-            {avg_score:.1f}/100
-        </div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Total Investment", f"${total_investment:,.2f}")
+    col2.metric("Stocks Held", len(portfolio_df))
+    avg_score = (portfolio_df["Composite Score"] * portfolio_df["Investment"] / total_investment).sum()
+    col3.metric("Weighted Score", f"{avg_score:.1f}/100")
 
     # Editable Table
     edited_df = st.data_editor(
