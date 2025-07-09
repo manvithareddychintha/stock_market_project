@@ -58,7 +58,8 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# ➕ Add to Portfolio Button (centered with better approach)
+# ➕ Add to Portfolio Button (centered with 20px top margin)
+st.markdown("<div style='margin-top:20px;'></div>", unsafe_allow_html=True)
 col1, col2, col3 = st.columns([1, 1, 1])
 with col2:
     add_clicked = st.button("➕ Add to Portfolio", key="add_btn")
@@ -117,11 +118,11 @@ if st.session_state.portfolio:
     portfolio_df = pd.DataFrame(list(st.session_state.portfolio.values()))
     total_investment = portfolio_df["Investment"].sum()
 
-    # 🚀 Generate + 🗑️ Clear Buttons (centered with better approach)
+    # 🚀 Generate + 🗑️ Clear Buttons (centered with same size)
     st.markdown("<div style='margin-top:2rem;'></div>", unsafe_allow_html=True)
     col1, col2, col3, col4, col5 = st.columns([1, 1, 1, 1, 1])
     with col2:
-        generate_clicked = st.button("🚀 Generate Portfolio Score & Visuals", key="generate_btn")
+        generate_clicked = st.button("🚀 Generate Portfolio", key="generate_btn")
     with col4:
         clear_clicked = st.button("🗑️ Clear Portfolio", key="clear_btn")
 
