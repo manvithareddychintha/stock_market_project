@@ -1,5 +1,3 @@
-
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -284,9 +282,9 @@ st.markdown(f"""
     <h3 style='color:{theme["accent"]}'>{selected_row['Name']} <span class='accent-gold'>({selected_ticker})</span></h3>
     <div style='display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-top:1rem;'>
         <div><b>Sector:</b> {selected_row['Sub-Sector']}</div>
-        <div><b>Market Cap:</b> <span class='accent-emerald'>${selected_row['Market Cap_y']/1000:,.1f}B</span></div>
+        <div><b>Market Cap:</b> <span class='accent-emerald'>₹{selected_row['Market Cap_y']/1000:,.1f} Cr</span></div>
         <div><b>PE Ratio:</b> {selected_row['PE Ratio_x']:.1f}</div>
-        <div><b>Current Price:</b> <span class='accent-emerald'>${market_price:,.2f}</span></div>
+        <div><b>Current Price:</b> <span class='accent-emerald'>₹{market_price:,.2f}</span></div>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -332,7 +330,7 @@ if st.session_state.portfolio:
 
     # Premium Metrics
     col1, col2, col3 = st.columns(3)
-    col1.metric("Total Investment", f"${total_investment:,.2f}")
+    col1.metric("Total Investment", f"₹{total_investment:,.2f}")
     col2.metric("Stocks Held", len(portfolio_df))
     avg_score = (portfolio_df["Composite Score"] * portfolio_df["Investment"] / total_investment).sum()
     col3.metric("Weighted Score", f"{avg_score:.1f}/100")
@@ -341,8 +339,8 @@ if st.session_state.portfolio:
     edited_df = st.data_editor(
         portfolio_df[["Ticker", "Name", "Quantity", "Price", "Investment", "PE Ratio"]],
         column_config={
-            "Price": st.column_config.NumberColumn(format="$%.2f"),
-            "Investment": st.column_config.NumberColumn(format="$%.2f")
+            "Price": st.column_config.NumberColumn(format="₹%.2f"),
+            "Investment": st.column_config.NumberColumn(format="₹%.2f")
         },
         use_container_width=True,
         hide_index=True,
