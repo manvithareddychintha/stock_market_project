@@ -228,16 +228,22 @@ with theme_toggle_container:
 # ===========================================
 @st.cache_data
 def load_data():
-    df = pd.DataFrame({
-        "Ticker": ["AAPL", "MSFT", "TSLA", "AMZN", "GOOGL"],
-        "Name": ["Apple", "Microsoft", "Tesla", "Amazon", "Google"],
-        "Sub-Sector": ["Technology", "Technology", "Automotive", "E-Commerce", "Technology"],
-        "Market Cap_y": [2800000, 2500000, 800000, 1800000, 1700000],
-        "PE Ratio_x": [28.5, 32.1, 110.2, 58.7, 24.3],
-        "Composite Score": [88, 92, 76, 85, 90]
-    })
-    df["Display"] = df["Ticker"] + " - " + df["Name"]
+    try:
+        df = pd.read_csv("filtered_df.csv")
+        df["Display"] = df["Ticker"] + " - " + df["Name"]
+    except FileNotFoundError:
+        st.warning("⚠️ Could not find `filtered_df.csv`. Using demo data.")
+        df = pd.DataFrame({
+            "Ticker": ["AAPL", "MSFT", "TSLA", "AMZN", "GOOGL"],
+            "Name": ["Apple", "Microsoft", "Tesla", "Amazon", "Google"],
+            "Sub-Sector": ["Technology", "Technology", "Automotive", "E-Commerce", "Technology"],
+            "Market Cap_y": [2800000, 2500000, 800000, 1800000, 1700000],
+            "PE Ratio_x": [28.5, 32.1, 110.2, 58.7, 24.3],
+            "Composite Score": [88, 92, 76, 85, 90]
+        })
+        df["Display"] = df["Ticker"] + " - " + df["Name"]
     return df
+
 
 stock_df = load_data()
 
