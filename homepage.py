@@ -190,7 +190,7 @@ if st.session_state.portfolio:
     st.markdown("<div style='margin-top:2rem;'></div>", unsafe_allow_html=True)
     col1, col2, col3, col4, col5 = st.columns([1, 1, 1, 1, 1])
     with col2:
-        generate_clicked = st.button("🚀 Generate Portfolio", key="generate_btn")
+        generate_clicked = st.button("🚀 Review Portfolio", key="generate_btn")
     with col4:
         clear_clicked = st.button("🗑️ Clear Portfolio", key="clear_btn")
 
