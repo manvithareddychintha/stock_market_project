@@ -29,7 +29,11 @@ def get_theme_colors():
             "success_bg": "#064e3b",
             "success_text": "#10b981",
             "info_bg": "#1e3a8a",
-            "info_text": "#3b82f6"
+            "info_text": "#3b82f6",
+            "button_bg": "#10b981",
+            "button_text": "#ffffff",
+            "button_hover": "#059669",
+            "button_border": "#10b981"
         }
     else:
         return {
@@ -42,23 +46,111 @@ def get_theme_colors():
             "success_bg": "#ecfdf5",
             "success_text": "#059669",
             "info_bg": "#eff6ff",
-            "info_text": "#2563eb"
+            "info_text": "#2563eb",
+            "button_bg": "#059669",
+            "button_text": "#ffffff",
+            "button_hover": "#047857",
+            "button_border": "#059669"
         }
 
 theme = get_theme_colors()
 
-# Apply Global Theme CSS
+# Apply Global Theme CSS with Button Styling
 st.markdown(f"""
 <style>
     .stApp {{
         background-color: {theme["bg_primary"]};
         color: {theme["text_primary"]};
     }}
+    
     .theme-toggle-container {{
         position: fixed;
         top: 20px;
         right: 20px;
         z-index: 999;
+    }}
+    
+    /* Custom Button Styling */
+    .stButton > button {{
+        background-color: {theme["button_bg"]} !important;
+        color: {theme["button_text"]} !important;
+        border: 2px solid {theme["button_border"]} !important;
+        border-radius: 10px !important;
+        padding: 0.5rem 1rem !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+    }}
+    
+    .stButton > button:hover {{
+        background-color: {theme["button_hover"]} !important;
+        border-color: {theme["button_hover"]} !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15) !important;
+    }}
+    
+    .stButton > button:active {{
+        transform: translateY(0px) !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    }}
+    
+    .stButton > button:focus {{
+        box-shadow: 0 0 0 3px {theme["accent"]}40 !important;
+        outline: none !important;
+    }}
+    
+    /* Theme Toggle Button Specific Styling */
+    .stButton[data-testid="theme_toggle_btn"] > button {{
+        background-color: {theme["bg_secondary"]} !important;
+        color: {theme["text_primary"]} !important;
+        border: 1px solid {theme["text_secondary"]}40 !important;
+        border-radius: 8px !important;
+        padding: 0.4rem 0.8rem !important;
+        font-size: 0.9rem !important;
+    }}
+    
+    .stButton[data-testid="theme_toggle_btn"] > button:hover {{
+        background-color: {theme["accent"]} !important;
+        border-color: {theme["accent"]} !important;
+        color: white !important;
+    }}
+    
+    /* Selectbox and Number Input Styling */
+    .stSelectbox > div > div {{
+        background-color: {theme["bg_secondary"]} !important;
+        color: {theme["text_primary"]} !important;
+        border: 1px solid {theme["text_secondary"]}40 !important;
+    }}
+    
+    .stNumberInput > div > div {{
+        background-color: {theme["bg_secondary"]} !important;
+        color: {theme["text_primary"]} !important;
+        border: 1px solid {theme["text_secondary"]}40 !important;
+    }}
+    
+    /* Data Editor Styling */
+    .stDataEditor {{
+        background-color: {theme["bg_secondary"]} !important;
+    }}
+    
+    .stDataEditor [data-testid="stDataEditor"] {{
+        background-color: {theme["bg_secondary"]} !important;
+    }}
+    
+    /* Metric Styling */
+    .stMetric {{
+        background-color: {theme["card_bg"]} !important;
+        padding: 1rem !important;
+        border-radius: 10px !important;
+        border: 1px solid {theme["text_secondary"]}20 !important;
+    }}
+    
+    .stMetric [data-testid="metric-container"] {{
+        background-color: transparent !important;
+    }}
+    
+    .stMetric [data-testid="metric-container"] > div {{
+        color: {theme["text_primary"]} !important;
     }}
 </style>
 """, unsafe_allow_html=True)
