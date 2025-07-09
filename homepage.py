@@ -93,7 +93,7 @@ if st.session_state.get("_theme_toggle_submitted"):
     st.session_state["_theme_toggle_submitted"] = False
     st.rerun()
 
-if st.experimental_get_query_params().get("theme_toggle") is not None:
+if st.query_params.get("theme_toggle") is not None:
     st.session_state["_theme_toggle_submitted"] = True
 
 # Load Scored Data
