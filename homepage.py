@@ -58,27 +58,6 @@ st.markdown(f"""
         background-color: {theme["bg_primary"]};
         color: {theme["text_primary"]};
     }}
-    
-    .stSelectbox > div > div {{
-        background-color: {theme["bg_secondary"]};
-        color: {theme["text_primary"]};
-    }}
-    
-    .stNumberInput > div > div {{
-        background-color: {theme["bg_secondary"]};
-        color: {theme["text_primary"]};
-    }}
-    
-    .stDataFrame {{
-        background-color: {theme["bg_secondary"]};
-    }}
-    
-    .stMetric {{
-        background-color: {theme["card_bg"]};
-        padding: 1rem;
-        border-radius: 8px;
-    }}
-    
     .theme-toggle {{
         position: fixed;
         top: 20px;
@@ -93,12 +72,29 @@ st.markdown(f"""
         font-size: 14px;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }}
-    
     .theme-toggle:hover {{
         opacity: 0.8;
     }}
 </style>
 """, unsafe_allow_html=True)
+
+# Theme Toggle HTML Button
+theme_icon = "🌙" if not st.session_state.dark_mode else "☀️"
+theme_text = "Dark Mode" if not st.session_state.dark_mode else "Light Mode"
+
+st.markdown(f"""
+<form method="POST">
+    <button class="theme-toggle" name="theme_toggle" type="submit">{theme_icon} {theme_text}</button>
+</form>
+""", unsafe_allow_html=True)
+
+if st.session_state.get("_theme_toggle_submitted"):
+    toggle_theme()
+    st.session_state["_theme_toggle_submitted"] = False
+    st.rerun()
+
+if st.experimental_get_query_params().get("theme_toggle") is not None:
+    st.session_state["_theme_toggle_submitted"] = True
 
 # Load Scored Data
 @st.cache_data
@@ -109,7 +105,6 @@ def load_data():
     return df
 
 stock_df = load_data()
-
 # Session State
 if "portfolio" not in st.session_state:
     st.session_state.portfolio = {}
