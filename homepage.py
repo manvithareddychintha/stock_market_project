@@ -58,7 +58,8 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# Add or Update Portfolio
+# Centered Add to Portfolio Button
+st.markdown("<div style='display:flex;justify-content:center;margin-top:1.5rem;'>", unsafe_allow_html=True)
 if st.button("➕ Add to Portfolio"):
     investment_value = quantity * market_price
     if selected_ticker in st.session_state.portfolio:
@@ -80,6 +81,7 @@ if st.button("➕ Add to Portfolio"):
             "Composite Score": selected_row.get("Composite Score", 0)
         }
         st.success(f"Added {quantity} shares of {selected_row['Name']} to portfolio")
+st.markdown("</div>", unsafe_allow_html=True)
 
 # Portfolio View
 if st.session_state.portfolio:
@@ -113,40 +115,48 @@ if st.session_state.portfolio:
     portfolio_df = pd.DataFrame(list(st.session_state.portfolio.values()))
     total_investment = portfolio_df["Investment"].sum()
 
-    if st.button(" Generate Portfolio Score & Visuals"):
-        weights = portfolio_df["Investment"] / total_investment
-        score = sum(weights * portfolio_df["Composite Score"])
+    # Centered Buttons: Generate Score and Clear Portfolio
+    st.markdown("<div style='display:flex;justify-content:center;gap:2rem;margin-top:2rem;'>", unsafe_allow_html=True)
 
-        st.markdown(f"""
-            <div style='background:#ecfdf5;padding:2rem;border-radius:20px;text-align:center;margin:2rem 0;'>
-                <h2 style='color:#059669'>Final Portfolio Score: {score:.1f}/100</h2>
-            </div>
-        """, unsafe_allow_html=True)
+    col_gen, col_clear = st.columns([1, 1])
+    with col_gen:
+        if st.button("🚀 Generate Portfolio Score & Visuals"):
+            weights = portfolio_df["Investment"] / total_investment
+            score = sum(weights * portfolio_df["Composite Score"])
 
-        fig = px.bar(
-            portfolio_df,
-            x="Name",
-            y="Composite Score",
-            color="Composite Score",
-            title=" Score Breakdown by Stock",
-            color_continuous_scale="Greens"
-        )
-        st.plotly_chart(fig, use_container_width=True)
+            st.markdown(f"""
+                <div style='background:#ecfdf5;padding:2rem;border-radius:20px;text-align:center;margin:2rem 0;'>
+                    <h2 style='color:#059669'>Final Portfolio Score: {score:.1f}/100</h2>
+                </div>
+            """, unsafe_allow_html=True)
 
-        fig2 = px.pie(
-            portfolio_df,
-            names="Sector",
-            values="Investment",
-            title=" Sector Allocation"
-        )
-        st.plotly_chart(fig2, use_container_width=True)
+            fig = px.bar(
+                portfolio_df,
+                x="Name",
+                y="Composite Score",
+                color="Composite Score",
+                title=" Score Breakdown by Stock",
+                color_continuous_scale="Greens"
+            )
+            st.plotly_chart(fig, use_container_width=True)
 
-        avg_pe = (portfolio_df["PE Ratio"] * weights).sum()
-        st.markdown(f"###  Portfolio Average PE Ratio: `{avg_pe:.2f}`")
+            fig2 = px.pie(
+                portfolio_df,
+                names="Sector",
+                values="Investment",
+                title=" Sector Allocation"
+            )
+            st.plotly_chart(fig2, use_container_width=True)
 
-    if st.button("🗑️ Clear Portfolio"):
-        st.session_state.portfolio = {}
-        st.rerun()
+            avg_pe = (portfolio_df["PE Ratio"] * weights).sum()
+            st.markdown(f"###  Portfolio Average PE Ratio: `{avg_pe:.2f}`")
+
+    with col_clear:
+        if st.button("🗑️ Clear Portfolio"):
+            st.session_state.portfolio = {}
+            st.rerun()
+
+    st.markdown("</div>", unsafe_allow_html=True)
 
 # Footer
 st.markdown("""
