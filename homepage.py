@@ -16,10 +16,6 @@ st.set_page_config(
 if "dark_mode" not in st.session_state:
     st.session_state.dark_mode = False
 
-# Theme Toggle Function
-def toggle_theme():
-    st.session_state.dark_mode = not st.session_state.dark_mode
-
 # Theme Variables
 def get_theme_colors():
     if st.session_state.dark_mode:
@@ -58,43 +54,30 @@ st.markdown(f"""
         background-color: {theme["bg_primary"]};
         color: {theme["text_primary"]};
     }}
-    .theme-toggle {{
+    .theme-toggle-container {{
         position: fixed;
         top: 20px;
         right: 20px;
         z-index: 999;
-        background-color: {theme["accent"]};
-        color: white;
-        border: none;
-        padding: 0.5rem 1rem;
-        border-radius: 20px;
-        cursor: pointer;
-        font-size: 14px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }}
-    .theme-toggle:hover {{
-        opacity: 0.8;
     }}
 </style>
 """, unsafe_allow_html=True)
 
-# Theme Toggle HTML Button
-theme_icon = "🌙" if not st.session_state.dark_mode else "☀️"
-theme_text = "Dark Mode" if not st.session_state.dark_mode else "Light Mode"
-
-st.markdown(f"""
-<form method="POST">
-    <button class="theme-toggle" name="theme_toggle" type="submit">{theme_icon} {theme_text}</button>
-</form>
-""", unsafe_allow_html=True)
-
-if st.session_state.get("_theme_toggle_submitted"):
-    toggle_theme()
-    st.session_state["_theme_toggle_submitted"] = False
-    st.rerun()
-
-if st.query_params.get("theme_toggle") is not None:
-    st.session_state["_theme_toggle_submitted"] = True
+# Theme Toggle Button (Top Right Corner)
+theme_toggle_container = st.container()
+with theme_toggle_container:
+    st.markdown('<div class="theme-toggle-container">', unsafe_allow_html=True)
+    
+    # Create columns to position the button
+    col1, col2, col3 = st.columns([10, 1, 1])
+    with col3:
+        theme_icon = "🌙" if not st.session_state.dark_mode else "☀️"
+        theme_text = "Dark" if not st.session_state.dark_mode else "Light"
+        if st.button(f"{theme_icon} {theme_text}", key="theme_toggle_btn"):
+            st.session_state.dark_mode = not st.session_state.dark_mode
+            st.rerun()
+    
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # Load Scored Data
 @st.cache_data
@@ -105,18 +88,10 @@ def load_data():
     return df
 
 stock_df = load_data()
+
 # Session State
 if "portfolio" not in st.session_state:
     st.session_state.portfolio = {}
-
-# Theme Toggle Button
-col1, col2, col3 = st.columns([1, 1, 1])
-with col3:
-    theme_icon = "🌙" if not st.session_state.dark_mode else "☀️"
-    theme_text = "Dark Mode" if not st.session_state.dark_mode else "Light Mode"
-    if st.button(f"{theme_icon} {theme_text}", key="theme_toggle"):
-        toggle_theme()
-        st.rerun()
 
 # Header
 st.markdown(f"""
