@@ -166,4 +166,4 @@ st.markdown("""
     <p style='text-align:center;font-size:0.9rem;color:#94a3b8'>
         ⚠️ Simulated Prices | Educational Use Only | © StockGennie Pro 2024
     </p>
-""", unsafe_allow_html=True)</content>
+""", unsafe_allow_html=True)
